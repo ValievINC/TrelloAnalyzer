@@ -1,0 +1,77 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #EAEAEA;
+}
+
+.header {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    background: white;
+    border-bottom: solid #2D83D1 2px;
+}
+
+.logo {
+  margin-top: 5px;
+  margin-left: 15px;
+  width: 220px;
+  height: 60px;
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+}
+
+.list {
+    margin-top: 70px;
+    position: fixed;
+    display: flex;
+    height: 100%;
+    width: 250px;
+    background: white;
+    /*box-shadow: inset 0 0.5rem 1rem -15px rgba(63, 63, 63, 0.404);*/
+    border-right: solid #2D83D1 2px;
+    flex-direction: column;
+}
+
+.search input{
+    display:flex;
+    font-family: Comfortaa;
+    font-size: 16px;
+    border: solid #2D83D1 2px;
+    border-radius: 10px;
+    width: 80%;
+    height: 30px;
+    margin: 0px auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    outline: none;
+}
+
+.Cards_count, .Columns_count {  
+  position: fixed;
+  display: inline-block;
+  font-family: Comfortaa;
+  font-size: 16pt;
+  margin-left: 250px;
+  white-space: nowrap;
+}
+
+.Cards_count {
+  margin-top: 40px;
+}
+
+.Columns_count {
+  margin-top: 10px;
+}
+
+
+@font-face {
+  font-family: 'Comfortaa';
+  src: url("../TrelloAnalyzer/fonts/Comfortaa-Regular.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
