@@ -82,7 +82,7 @@ td {
 
 @font-face {
   font-family: 'Comfortaa';
-  src: url("../TrelloAnalyzer/fonts/Comfortaa-Regular.ttf") format('truetype');
+  src: url("fonts/Comfortaa-Regular.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
 }
