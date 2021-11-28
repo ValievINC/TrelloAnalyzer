@@ -1,61 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
-      <link rel="stylesheet" href="style.css">
-   <body>
-      <div>
-         <header class="header">
-            <img src="C:\Users\genna\Desktop\TrelloAnalyzer\svg\logo.svg" class="logo"/>
-            <div class="Columns_count">Количество столбцов: <!--реализовать систему поиска кол-ва столбцов--></div>
-            <div class="Cards_count">Количество карточек: <!--реализовать систему поиска кол-ва карточек--></div>
-         </header>
-      </div>
-      <div>
-      <aside class="list">
-        <div class="search">
-            <input type="text" placeholder="Название команды" list="teams">
-                <!--Подключить базу данных-->
-                <!--Datalist не кастомизируется, надо костылить-->
-                <!--Прикрутить js мб-->
-                <datalist id="teams">
-                  <select>
-                    <option value="team1">
-                    <option value="team2">
-                    <option value="team3">
-                    <option value="team4">
-                    <option value="team5">
-                  </select>
-               </datalist>
-        <!--реализовать показ информации о команде-->
-      </aside>
-      </div>
-      <!--реализовать таблицу/сетку с графиками-->
-      <div>
-         <table>
-            <tr>
-               <td>
-                  <canvas id="myChart"></canvas>
-               </td>
-               <td>
-                  <canvas id="myChart2"></canvas>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <canvas id="myChart3"></canvas>
-               </td>
-               <td>
-                  <div>
-                     <button id ="GetrandomItem" style="height:100px; width:100px"></button>
-                  </div>
-               </td>
-            </tr>
-         </table>
-      </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
-        <script type="text/javascript">
         var xmlhttp = new XMLHttpRequest(); //для обмена данными между клиентом и сервером, можно юзать чтоб получить JSON файл
         var url = "https://trello.com/b/LxqGiE1M/итис.json";
         var tableIDName = [];
@@ -79,14 +21,6 @@
                 MakeDiagrammThree();
             }
         }
-        function randomItem(){ 
-                item = cards[Math.floor(Math.random()*cards.length)]; // random card item
-                console.log(item.shortUrl)
-                window.open(item.shortUrl);
-            }
-            window.addEventListener('load', function () {
-            document.getElementById('GetrandomItem').addEventListener('click', randomItem, false);
-            }, false);
         function cardsName(data){
                 for (let i = 0; i < data.cards.length; i++)
                 {
@@ -220,7 +154,3 @@ var myChart = new Chart(ctx, {
   }
 });
 }
-        </script>
-      </body>
-   </head>
-</html>
