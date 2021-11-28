@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru">
-   <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
-      <link rel="stylesheet" href="style.css">
-   <body>
-      <div>
-         <header class="header">
-            <img src="svg\logo.svg" class="logo"/>
-            <div class="Columns_count">Количество столбцов: <!--реализовать систему поиска кол-ва столбцов--></div>
-            <div class="Cards_count">Количество карточек: <!--реализовать систему поиска кол-ва карточек--></div>
-         </header>
-      </div>
-      <div>
-      <aside class="list">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
+    <link rel="stylesheet" href="style.css">
+<body>
+<div>
+    <header class="header">
+        <img src="svg\logo.svg" class="logo"/>
+        <div class="Columns_count">Количество столбцов: <!--реализовать систему поиска кол-ва столбцов--></div>
+        <div class="Cards_count">Количество карточек: <!--реализовать систему поиска кол-ва карточек--></div>
+    </header>
+</div>
+<div>
+    <aside class="list">
         <div class="search">
             <form>
                 <input type="text" placeholder="Название команды" list="teams">
-                    <!--реализовать систему поиска команды-->
-                    <!--Подключить базу данных-->
-                    <datalist id="teams">
-                        <option value="team1">
-                        <option value="team2">
-                        <option value="team3">
-                        <option value="team4">
-                        <option value="team5">
-                    </datalist>
+                <!--реализовать систему поиска команды-->
+                <!--Подключить базу данных-->
+                <datalist id="teams">
+                    <? foreach ($teams as $team): ?>
+                        <option value=<?=$team['name']?>>
+                    <? endforeach; ?>
+                </datalist>
             </form>
         </div>
         <!--реализовать показ информации о команде-->
-      </aside>
-      </div>
-      <!--реализовать таблицу/сетку с графиками-->
-      <div>
-         <table>
-            <tr>
-               <td>
-               </td>
-               <td>
-               </td>
-            </tr>
-            <tr>
-               <td>
-               </td>
-               <td>
-               </td>
-            </tr>
-         </table>
-      </div>
-   </body>
-   </head>
+    </aside>
+</div>
+<!--реализовать таблицу/сетку с графиками-->
+<div>
+    <table>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</head>
 </html>

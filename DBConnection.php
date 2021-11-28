@@ -26,9 +26,9 @@ class DBConnection
         return $this->Query($query);
     }
 
-    public function GetRow($table, $row)
+    public function GetRow($table, $column, $value)
     {
-        $query = "SELECT * FROM $table WHERE id = $row";
+        $query = "SELECT * FROM $table WHERE $column = $value";
         return $this->Query($query);
     }
 }
