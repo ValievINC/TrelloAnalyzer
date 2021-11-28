@@ -14,18 +14,28 @@
 <div>
     <aside class="list">
         <div class="search">
-            <form>
+            <form method="post">
                 <input type="text" placeholder="Название команды" list="teams">
                 <!--реализовать систему поиска команды-->
-                <!--Подключить базу данных-->
-                <datalist id="teams">
-                    <? foreach ($teams as $team): ?>
-                        <option value=<?=$team['name']?>>
-                    <? endforeach; ?>
-                </datalist>
+                <select name="team_id" id="teams">
+                    <?php foreach ($teams as $team): ?>
+                    <option value=<?=$team['id']?>><?=$team['name']?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="submit">
             </form>
         </div>
-        <!--реализовать показ информации о команде-->
+        <?=$team_info['name'] ?>
+        <br>
+        <?=$team_info['topic'] ?>
+        <br>
+        <?=$team_info['url'] ?>
+        <br>
+        <br>
+        <?php foreach ($members as $member): ?>
+            <?="{$member['first_name']} {$member['last_name']}: {$member['role']}"?>
+            <br>
+        <?php endforeach; ?>
     </aside>
 </div>
 <!--реализовать таблицу/сетку с графиками-->
