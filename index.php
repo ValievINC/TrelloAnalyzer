@@ -9,6 +9,6 @@ $team_info = (array_key_exists('team_id', $_POST)) ? $db->GetRow('teams', 'id', 
 $members = (array_key_exists('team_id', $_POST)) ? $db->GetRow('users', 'team_id', $_POST['team_id']) : [];
 
 
-require 'content.php';
+require 'content.html';
 
 ?>
