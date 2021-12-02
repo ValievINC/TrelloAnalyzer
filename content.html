@@ -19,7 +19,7 @@
                 <!--реализовать систему поиска команды-->
                 <select name="team_id" id="teams">
                     <?php foreach ($teams as $team): ?>
-                    <option value=<?=$team['id']?>><?=$team['name']?></option>
+                        <option value=<?=$team['id']?> <?php if ($team_info['id'] == $team['id']) { echo 'selected'; }?>><?=$team['name']?></option>
                     <?php endforeach; ?>
                 </select>
                 <input type="submit">
