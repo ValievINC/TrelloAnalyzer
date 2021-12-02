@@ -43,18 +43,30 @@
     <table>
         <tr>
             <td>
+                <canvas id="myChart"></canvas>
             </td>
             <td>
+                <canvas id="myChart2"></canvas>
             </td>
         </tr>
         <tr>
             <td>
+                <canvas id="myChart3"></canvas>
             </td>
             <td>
+                <div>
+                    <button id ="GetrandomItem" style="height:100px; width:100px"></button>
+                </div>
             </td>
         </tr>
     </table>
 </div>
+<script>
+    let teamUrl = '<?php echo $team_info['url'] ?>';
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
+<script type="text/javascript" src="graphs.js"></script>
 </body>
 </head>
 </html>
