@@ -1,7 +1,7 @@
 <?php
 require_once 'DBConnection.php';
 require_once 'update_db.php';
-$db = new DBConnection('test', 'trello_analyzer_db');
+$db = new DBConnection('trelloanalyzer', 'trello_analyzer_db');
 
 $teams = $db->GetColumns('teams', ['id', 'name']);
 

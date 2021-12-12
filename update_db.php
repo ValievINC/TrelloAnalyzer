@@ -2,7 +2,7 @@
 require_once 'DBConnection.php';
 require_once 'quickstart.php';
 
-$db = new DBConnection('test', 'trello_analyzer_db');
+$db = new DBConnection('trelloanalyzer', 'trello_analyzer_db');
 
 $values = getValues();
 $converter = json_decode(file_get_contents('question_to_dbcolumn_config.json'), true);
