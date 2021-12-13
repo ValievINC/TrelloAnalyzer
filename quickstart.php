@@ -58,14 +58,12 @@ function getClient()
     return $client;
 }
 
-function getValues($range)
+function getValues($range, $spreadsheetId)
 {
 // Get the API client and construct the service object.
     $client = getClient();
     $service = new Google_Service_Sheets($client);
 
-
-    $spreadsheetId = '1Wa7hyczrM1Izug8ag-Qoe8EBiAKVAj0Ndy6z5P-_GN0';
     $response = $service->spreadsheets_values->get($spreadsheetId, $range);
     return $response->getValues();
 }

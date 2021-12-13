@@ -6,19 +6,8 @@ function GetBiggestSubarrayLength(array $a) {
     return max(array_map(function ($item) { return count($item); }, $a));
 }
 
-$db = new DBConnection('trelloanalyzer', 'trello_analyzer_db');
-
-$converter = json_decode(file_get_contents('question_to_dbcolumn_config.json'), true);
-$values = getValues($converter['range']);
-
-$title = array_shift($values);
-
-$users = array();
-
-foreach ($values as $row) {
-    if (!$row){
-        continue;
-    }
+function GetDataFromRow($row, $title, $converter): array
+{
     $data = array();
     for ($i = 0; $i < count($row); $i++) {
         if (array_key_exists($title[$i], $converter['teams'])) {
@@ -28,7 +17,10 @@ foreach ($values as $row) {
             $data[$converter['users'][$title[$i]]][] = $row[$i];
         }
     }
+    return $data;
+}
 
+function GetTeam($data, $db) {
     $url = $data['url'][0] ?? '';
     $team = $db->GetRow('teams', 'url', "'$url'");
     if (!$team) {
@@ -40,16 +32,32 @@ foreach ($values as $row) {
     else {
         $team = $team[0];
     }
+    return $team;
+}
+
+$db = new DBConnection('trelloanalyzer', 'trello_analyzer_db');
+
+$config = json_decode(file_get_contents('config.json'), true);
+$values = getValues($config['range'], $config['sheet_id']);
+$title = array_shift($values);
+$users = array();
+
+foreach ($values as $row) {
+    if (!$row){
+        continue;
+    }
+
+    $data = GetDataFromRow($row, $title, $config);
+    $team = GetTeam($data, $db);
 
     $repeats = GetBiggestSubarrayLength($data);
     for($i = 0; $i < $repeats; $i++) {
-        if (!isset($data['name'][$i]) || !isset($data['role'][$i])) {
+        if (!isset($data['name'][$i])) {
             continue;
         }
-        $name = $data['name'][$i] ?? '';
         $role = $data['role'][$i] ?? '';
         $users[] = array(
-            "name" => $name,
+            "name" => $data['name'][$i],
             "team_id" => $team['id'],
             "role" => $role
         );
@@ -60,9 +68,6 @@ $ids_u = $db->GetColumns('users', array('id'));
 
 for ($i = 0; $i < count($ids_u) && $i < count($users); $i++) {
     $name = $users[$i]['name'];
-    if ($name == '') {
-        continue;
-    }
     $ti = $users[$i]['team_id'];
     $role = $users[$i]['role'];
     $id = $ids_u[$i]['id'];
@@ -79,9 +84,6 @@ for ($i = count($users); $i < count($ids_u); $i++) {
 
 for ($i = count($ids_u); $i < count($users); $i++) {
     $name = $users[$i]['name'];
-    if ($name == '') {
-        continue;
-    }
     $ti = $users[$i]['team_id'];
     $role = $users[$i]['role'];
     $query = "INSERT INTO users VALUES (NULL, '$name', $ti, '$role')";

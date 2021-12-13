@@ -1,5 +1,4 @@
 {
-  "range": "A:O",
   "users": {
     "Имя и фамилия участника": "name",
     "Имя и фамилия второго участника": "name",
@@ -16,5 +15,7 @@
     "Ссылка на вашу доску Trello": "url",
     "Название проекта": "team_name",
     "Тема проекта": "topic"
-  }
+  },
+  "sheet_id": "1Wa7hyczrM1Izug8ag-Qoe8EBiAKVAj0Ndy6z5P-_GN0",
+  "range": "A:O"
 }
