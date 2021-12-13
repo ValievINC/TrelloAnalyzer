@@ -2,10 +2,14 @@
 require_once 'DBConnection.php';
 require_once 'quickstart.php';
 
+function GetBiggestSubarrayLength(array $a) {
+    return max(array_map(function ($item) { return count($item); }, $a));
+}
+
 $db = new DBConnection('trelloanalyzer', 'trello_analyzer_db');
 
-$values = getValues();
 $converter = json_decode(file_get_contents('question_to_dbcolumn_config.json'), true);
+$values = getValues($converter['range']);
 
 $title = array_shift($values);
 
@@ -18,40 +22,52 @@ foreach ($values as $row) {
     $data = array();
     for ($i = 0; $i < count($row); $i++) {
         if (array_key_exists($title[$i], $converter['teams'])) {
-            $data[$converter['teams'][$title[$i]]] = $row[$i];
+            $data[$converter['teams'][$title[$i]]][] = $row[$i];
         }
         if (array_key_exists($title[$i], $converter['users'])) {
-            $data[$converter['users'][$title[$i]]] = $row[$i];
+            $data[$converter['users'][$title[$i]]][] = $row[$i];
         }
     }
-    $fn = $data['first_name'] ?? '';
-    $ln = $data['last_name'] ?? '';
-    $role = $data['role'] ?? '';
-    $url = $data['url'] ?? '';
-    $team = $db->GetRow('teams', 'url', "'$url'")[0];
+
+    $url = $data['url'][0] ?? '';
+    $team = $db->GetRow('teams', 'url', "'$url'");
     if (!$team) {
-        $tn = $data['name'] ?? '';
-        $topic = $data['topic'] ?? '';
+        $tn = $data['team_name'][0] ?? '';
+        $topic = $data['topic'][0] ?? '';
         $db->Query("INSERT INTO teams VALUES (NULL, '$tn', '$topic', '$url')");
         $team = $db->GetRow('teams', 'url', "'$url'")[0];
     }
-    $users[] = array(
-        "first_name" => $fn,
-        "last_name" => $ln,
-        "team_id" => $team['id'],
-        "role" => $role
-    );
+    else {
+        $team = $team[0];
+    }
+
+    $repeats = GetBiggestSubarrayLength($data);
+    for($i = 0; $i < $repeats; $i++) {
+        if (!isset($data['name'][$i]) || !isset($data['role'][$i])) {
+            continue;
+        }
+        $name = $data['name'][$i] ?? '';
+        $role = $data['role'][$i] ?? '';
+        $users[] = array(
+            "name" => $name,
+            "team_id" => $team['id'],
+            "role" => $role
+        );
+    }
 }
 $ids_t = $db->GetColumns('teams', array('id'));
 $ids_u = $db->GetColumns('users', array('id'));
 
 for ($i = 0; $i < count($ids_u) && $i < count($users); $i++) {
-    $fn = $users[$i]['first_name'];
-    $ln = $users[$i]['last_name'];
+    $name = $users[$i]['name'];
+    if ($name == '') {
+        continue;
+    }
     $ti = $users[$i]['team_id'];
     $role = $users[$i]['role'];
     $id = $ids_u[$i]['id'];
-    $query = "UPDATE users SET first_name='$fn', last_name='$ln', team_id=$ti, role='$role' WHERE id=$id";
+    $query = "UPDATE users SET name='$name', team_id=$ti, role='$role' WHERE id=$id";
+
     $db->Query($query);
 }
 
@@ -62,11 +78,13 @@ for ($i = count($users); $i < count($ids_u); $i++) {
 }
 
 for ($i = count($ids_u); $i < count($users); $i++) {
-    $fn = $users[$i]['first_name'];
-    $ln = $users[$i]['last_name'];
+    $name = $users[$i]['name'];
+    if ($name == '') {
+        continue;
+    }
     $ti = $users[$i]['team_id'];
     $role = $users[$i]['role'];
-    $query = "INSERT INTO users VALUES (NULL, '$fn', '$ln', $ti, '$role')";
+    $query = "INSERT INTO users VALUES (NULL, '$name', $ti, '$role')";
     $db->Query($query);
 }
 
