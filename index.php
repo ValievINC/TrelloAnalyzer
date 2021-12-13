@@ -7,9 +7,12 @@ $teams = $db->GetColumns('teams', ['id', 'team_name']);
 
 print_r($_POST);
 
-$team_info = (array_key_exists('team_id', $_POST)) ? $db->GetRow('teams', 'id', $_POST['team_id'])[0] :
+$tn = (array_key_exists('team_name', $_POST)) ? $_POST['team_name'] : '';
+
+$team_info = $tn ? $db->GetRow('teams', 'team_name', "'".$tn."'")[0] :
     ['id' => -1, 'team_name' => 'Команда не найдена :(', 'topic' => 'Возможно, допущена ошибка в написании названия команды', 'url' => ''];
-$members = (array_key_exists('team_id', $_POST)) ? $db->GetRow('users', 'team_id', $_POST['team_id']) : [];
+
+$members = ($team_info['id'] == -1) ? [] : $db->GetRow('users', 'team_id', $team_info['id']);
 
 
 require 'content.html';
