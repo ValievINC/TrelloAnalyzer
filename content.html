@@ -15,11 +15,11 @@
     <aside class="list">
         <div class="search">
             <form method="post">
-                <input type="text" placeholder="Название команды" list="teams" onchange="this.form.submit()">
+                <input type="text" name="team_id" placeholder="Название команды" list="teams" onchange="this.form.submit()">
                 <!--реализовать систему поиска команды-->
                 <datalist name="team_id" id="teams">
                     <?php foreach ($teams as $team): ?>
-                        <option value=<?=$team['team_name']?> <?php if ($team_info['id'] == $team['id']) { echo 'selected'; }?>><?=$team['team_name']?></option>
+                        <option value=<?=$team['id']?>><?=$team['team_name']?></option>
                     <?php endforeach; ?>
                 </datalist>
             </form>
