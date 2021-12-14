@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8;">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8;" >
+    <meta http-equiv="cache-control" content="no-cache" />
     <link rel="stylesheet" href="style.css">
 <body>
 <div>
     <header class="header">
         <img src="svg\logo.svg" class="logo"/>
-        <div class="Columns_count">Количество столбцов: <!--реализовать систему поиска кол-ва столбцов--></div>
-        <div class="Cards_count">Количество карточек: <!--реализовать систему поиска кол-ва карточек--></div>
+        <div class="Columns_count">Количество столбцов:</div>
+        <div class="Cards_count">Количество карточек:</div>
     </header>
 </div>
 <div>
     <aside class="list">
         <div class="search">
             <form method="post">
-                <input type="text" name="team_name" placeholder="Название команды" list="teams" onchange="this.form.submit()">
-                <!--реализовать систему поиска команды-->
+                <input type="text" autocomplete="off" name="team_name" placeholder="Название команды" list="teams" onchange="this.form.submit()">
                 <datalist name="team_name" id="teams">
                     <?php foreach ($teams as $team): ?>
                         <option value="<?=$team['team_name']?>"></option>
@@ -24,20 +24,15 @@
                 </datalist>
             </form>
         </div>
-        <?=$team_info['team_name'] ?>
-        <br>
-        <?=$team_info['topic'] ?>
-        <br>
-        <?=$team_info['url'] ?>
-        <br>
-        <br>
-        <?php foreach ($members as $member): ?>
-            <?="{$member['name']}: {$member['role']}"?>
-            <br>
-        <?php endforeach; ?>
+        <div class="information">
+            <p class="project_name"><?=$team_info['team_name'] ?></p>
+            <p class="project_theme"><?=$team_info['topic'] ?></p><br>
+            <p><?php foreach ($members as $member): ?>
+                <?="{$member['name']}: {$member['role']}"?></p>
+            <?php endforeach; ?>
+        </div>
     </aside>
 </div>
-<!--реализовать таблицу/сетку с графиками-->
 <div>
     <table>
         <tr>
