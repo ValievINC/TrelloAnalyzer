@@ -22,7 +22,7 @@ xmlhttp.onreadystatechange = function(){ //проверка на то что д�
         console.log(data);
         MakeDiagrammOne(); //диаграмки через CHARTJS, через Google Chart не разобрался, зато ChartJS можно что-то помутить
         MakeDiagrammTwo();
-        MakeDiagrammThree();
+        MakeDiagrammThree(generateRanges(datamakes(data)[datamakes(data).length-1],datamakes(data)[0]),generatedatas(datamakes(data),generateRanges(datamakes(data)[datamakes(data).length-1],datamakes(data)[0])));
     }
 }
 
@@ -136,40 +136,148 @@ function MakeDiagrammTwo(){
     });
 }
         
-function MakeDiagrammThree(){
-var ctx = document.getElementById("myChart3").getContext("2d");
-
-var myChart = new Chart(ctx, {
-  type: 'line',
-  options: {
-    scales: {
-      x: {
-          grid: {
-              borderColor: 'red'
+function MakeDiagrammThree(data,data1){
+    var ctx = document.getElementById("myChart3").getContext("2d");
+    
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      options: {
+        scales: {
+          x: {
+              grid: {
+                  borderColor: 'red'
+              }
           }
-      }
-    }
-  },
-  data: {
-    labels: ["2015-03-15T13:03:00Z", "2015-03-25T13:02:00Z", "2015-04-25T14:12:00Z"],
-    datasets: [{
-      label: 'допилю, еще не рабочая',
-      data: [{
-          t: '2015-03-15T13:03:00Z',
-          y: 12
-        },
-        {
-          t: '2015-03-25T13:02:00Z',
-          y: 21
-        },
-        {
-          t: '2015-04-25T14:12:00Z',
-          y: 32
         }
-      ],
-      backgroundColor: 'rgba(153,51,204,1)',
-      borderWidth: 1
-    }]
-  }
-});
-}
+      },
+      data: {
+        labels: data,
+        datasets: [{
+          label: 'График добавления карточек',
+          data: data1,
+          backgroundColor: 'rgba(153,51,204,1)',
+          borderWidth: 1
+        }]
+      }
+    });
+    }
+    
+    function datamakes(data)
+    {      
+    var newDate = ""  
+    var constructor = [];
+    var newconstructor = [];
+    var temp1 = [];
+    var newcons = [];
+    var dates = [];
+    for (let i = 0; i < data.actions.length; i++)
+    {
+        if (data.actions[i].type == "createCard")
+        {
+            constructor.push(data.actions[i].date.substr(0,10).split('-'));
+        }
+    }
+            for (let j = 0; j < constructor.length; j++)
+            {
+                
+                for (let k = 0; k < constructor[j].length; k++)
+                {
+                    var temp = 0;
+                    newDate += constructor[j][k] + "/"
+                }        
+            }
+                for (let g = 0; g < newDate.length-1; g+=11)
+                {
+                    newconstructor.push(newDate.substring(g,g+10));
+                }
+                return newconstructor;
+    }
+    function generateRanges(startDate, endDate) {
+      var arr = [];
+      var temparr = [];
+      var temparr1 = [];
+      let current = moment(startDate, 'YYYY/MM/DD');
+      const end = moment(endDate, 'YYYY/MM/DD');
+      const daysByMonth = {};
+    
+      while (current <= end) {
+        var month = current.month();
+        var key = `${current.year()}${current.month()}`;
+        var date = current.date();
+        if (date < 10)
+        {
+            date = "0" + date;
+        }
+        if (month < 10)
+        {
+            month = "0" + month;
+        }
+        if (key in daysByMonth) {
+          daysByMonth[key].dates.push(`${current.year()}` + '-' + month + '-' + date);
+          arr.push(`${current.year()}` + '-' + month + '-' + date)
+        }
+        else {
+          daysByMonth[key] = {
+            dates: [`${current.year()}` + '-' + month + '-' + date],
+          }
+        }
+        current.add(7, 'days');
+        
+        arr.push(daysByMonth[key].dates);
+        for (let i = 0; i < arr.length; i++)
+        {
+            for (let j = 0; j < arr[i].length; j++)
+                {
+                if (!temparr.includes(arr[i][j]) && (arr[i][j].length > 2)){
+                    temparr.push(arr[i][j]);
+                    }
+                }
+        }
+      }
+      String.prototype.replaceAt = function(index, replacement) {
+                return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+            }
+        for (let k = 0; k < temparr.length; k++)
+        {
+            var normalMonth = parseInt(temparr[k].substring(5,7)) + 1;
+    
+            if (normalMonth < 10)
+            {
+                normalMonth = "0" + normalMonth + "-" + temparr[k].slice(temparr[k].length-2,temparr[k].length);
+                temparr1.push(temparr[k].replaceAt(5,normalMonth.toString()));
+            }
+            if (normalMonth >= 10)
+            {
+            temparr1.push(temparr[k].replaceAt(5,normalMonth.toString()));
+            
+        }
+            
+        }
+      return temparr1;
+    }
+    
+    function generatedatas(data,xLabels)
+    {
+        var counter = 0;
+        var cont = [];
+        for (var i = 0; i < xLabels.length; i++)
+        {
+            xLabels[i] = xLabels[i].replace(new RegExp('-','g'),'/');
+        }
+        for (var i = 0; i < data.length; i++)
+        {
+            for (var j = 0; j < xLabels.length-1; j++)
+            {
+                if (isNaN(cont[j]))
+                    {
+                        cont[j] = 0;
+                    }
+                if (data[i] <= xLabels[j+1] && data[i] >= xLabels[j])
+                {
+                    cont[j]++
+                }
+            }
+        }
+        cont.unshift(0);
+        return cont;   
+    }
