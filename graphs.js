@@ -31,10 +31,13 @@ function randomItem(){
     console.log(item.shortUrl)
     window.open(item.shortUrl);
 }
+
+
 window.addEventListener('load', function () {
 document.getElementById('GetrandomItem').addEventListener('click', randomItem, false);
 }, false);
-               
+
+
 function cardsName(data){
         for (let i = 0; i < data.cards.length; i++)
         {
@@ -42,6 +45,7 @@ function cardsName(data){
             cardsNames.push(data.cards[i].name);
         }
 }
+
 
 function tableName(data){
         for (let i = 0; i < data.lists.length; i++)
@@ -64,6 +68,7 @@ function tableName(data){
             }
         }
 }     
+
 
 function membersInfo(data){
         for (let i = 0; i < data.members.length; i++)
@@ -89,6 +94,7 @@ function membersInfo(data){
         }
 }
 
+
 function MakeDiagrammOne(){
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -98,7 +104,7 @@ function MakeDiagrammOne(){
             datasets: [{
             label: 'Распределение карточек по столбикам',
             data: tableIdVar,
-            backgroundColor: 'rgba(153,51,204,1)',
+            backgroundColor: 'rgba(45, 131, 209, 1)',
             borderWidth: 1
         }]
     },
@@ -113,39 +119,49 @@ function MakeDiagrammOne(){
 }
 
     
+function randColor(colorsL) {
+    var COLORS = [];
+    for (var i = 0; i < colorsL; i++) {
+        COLORS.push('#' + rand(0,150).toString(16) + (131).toString(16) + (209).toString(16)); 
+    }
+    return COLORS;
+}
+
+
+function rand(frm, to) {
+    return ~~(Math.random() * (to - frm)) + frm;
+}
+      
+
 function MakeDiagrammTwo(){
     const ctx = document.getElementById('myChart2').getContext('2d');
     const myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: {
             labels: membersName,
             datasets: [{
             label: 'Распределение карточек по участникам',
             data: membersIdVar,
-            backgroundColor: 'rgba(153,51,204,1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-                }
-            }
+            backgroundColor: randColor(membersName.length),
+            borderWidth: 1,
+            }]
+        },
+        options: {
+        
         }
     });
 }
-        
-function MakeDiagrammThree(data,data1){
+
+
+function MakeDiagrammThree(data,data1) {
     var ctx = document.getElementById("myChart3").getContext("2d");
-    
     var myChart = new Chart(ctx, {
       type: 'line',
       options: {
         scales: {
           x: {
               grid: {
-                  borderColor: 'red'
+                  borderColor: 'red',
               }
           }
         }
@@ -155,129 +171,123 @@ function MakeDiagrammThree(data,data1){
         datasets: [{
           label: 'График добавления карточек',
           data: data1,
-          backgroundColor: 'rgba(153,51,204,1)',
+          backgroundColor: 'rgba(45, 131, 209, 1)',
           borderWidth: 1
         }]
       }
     });
-    }
-    
-    function datamakes(data)
-    {      
+}
+
+
+function datamakes(data) {      
     var newDate = ""  
     var constructor = [];
     var newconstructor = [];
     var temp1 = [];
     var newcons = [];
     var dates = [];
-    for (let i = 0; i < data.actions.length; i++)
-    {
-        if (data.actions[i].type == "createCard")
-        {
+    for (let i = 0; i < data.actions.length; i++) {
+        if (data.actions[i].type == "createCard") {
             constructor.push(data.actions[i].date.substr(0,10).split('-'));
         }
     }
-            for (let j = 0; j < constructor.length; j++)
-            {
-                
-                for (let k = 0; k < constructor[j].length; k++)
-                {
-                    var temp = 0;
-                    newDate += constructor[j][k] + "/"
-                }        
-            }
-                for (let g = 0; g < newDate.length-1; g+=11)
-                {
-                    newconstructor.push(newDate.substring(g,g+10));
-                }
-                return newconstructor;
+    for (let j = 0; j < constructor.length; j++) {  
+        for (let k = 0; k < constructor[j].length; k++) {
+            var temp = 0;
+            newDate += constructor[j][k] + "/"
+        }        
     }
-    function generateRanges(startDate, endDate) {
-      var arr = [];
-      var temparr = [];
-      var temparr1 = [];
-      let current = moment(startDate, 'YYYY/MM/DD');
-      const end = moment(endDate, 'YYYY/MM/DD');
-      const daysByMonth = {};
-    
-      while (current <= end) {
+    for (let g = 0; g < newDate.length-1; g+=11) {
+            newconstructor.push(newDate.substring(g,g+10));
+    }
+    return newconstructor;
+}
+
+
+function generateRanges(startDate, endDate) {
+    var arr = [];
+    var temparr = [];
+    var temparr1 = [];
+    let current = moment(startDate, 'YYYY/MM/DD');
+    const end = moment(endDate, 'YYYY/MM/DD');
+    const daysByMonth = {};
+
+    while (current <= end) {
         var month = current.month();
         var key = `${current.year()}${current.month()}`;
         var date = current.date();
-        if (date < 10)
-        {
+
+        if (date < 10) {
             date = "0" + date;
         }
-        if (month < 10)
-        {
+
+        if (month < 10) {
             month = "0" + month;
         }
+
         if (key in daysByMonth) {
-          daysByMonth[key].dates.push(`${current.year()}` + '-' + month + '-' + date);
-          arr.push(`${current.year()}` + '-' + month + '-' + date)
+            daysByMonth[key].dates.push(`${current.year()}` + '-' + month + '-' + date);
+            arr.push(`${current.year()}` + '-' + month + '-' + date)
         }
+
         else {
-          daysByMonth[key] = {
+            daysByMonth[key] = {
             dates: [`${current.year()}` + '-' + month + '-' + date],
-          }
+            }
         }
         current.add(7, 'days');
-        
+
         arr.push(daysByMonth[key].dates);
-        for (let i = 0; i < arr.length; i++)
-        {
-            for (let j = 0; j < arr[i].length; j++)
-                {
-                if (!temparr.includes(arr[i][j]) && (arr[i][j].length > 2)){
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = 0; j < arr[i].length; j++) {
+                if (!temparr.includes(arr[i][j]) && (arr[i][j].length > 2)) {
                     temparr.push(arr[i][j]);
-                    }
                 }
+            }
         }
-      }
-      String.prototype.replaceAt = function(index, replacement) {
-                return this.substr(0, index) + replacement + this.substr(index + replacement.length);
-            }
-        for (let k = 0; k < temparr.length; k++)
-        {
-            var normalMonth = parseInt(temparr[k].substring(5,7)) + 1;
-    
-            if (normalMonth < 10)
-            {
-                normalMonth = "0" + normalMonth + "-" + temparr[k].slice(temparr[k].length-2,temparr[k].length);
-                temparr1.push(temparr[k].replaceAt(5,normalMonth.toString()));
-            }
-            if (normalMonth >= 10)
-            {
+    }
+
+    String.prototype.replaceAt = function(index, replacement) {
+            return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+    }
+
+    for (let k = 0; k < temparr.length; k++) {
+        var normalMonth = parseInt(temparr[k].substring(5,7)) + 1;
+        if (normalMonth < 10) {
+            normalMonth = "0" + normalMonth + "-" + temparr[k].slice(temparr[k].length-2,temparr[k].length);
             temparr1.push(temparr[k].replaceAt(5,normalMonth.toString()));
-            
         }
-            
+        if (normalMonth >= 10) {
+        temparr1.push(temparr[k].replaceAt(5,normalMonth.toString()));
         }
-      return temparr1;
+        
     }
-    
-    function generatedatas(data,xLabels)
+    return temparr1;
+}
+
+
+function generatedatas(data,xLabels)
+{
+    var counter = 0;
+    var cont = [];
+    for (var i = 0; i < xLabels.length; i++)
     {
-        var counter = 0;
-        var cont = [];
-        for (var i = 0; i < xLabels.length; i++)
+        xLabels[i] = xLabels[i].replace(new RegExp('-','g'),'/');
+    }
+    for (var i = 0; i < data.length; i++)
+    {
+        for (var j = 0; j < xLabels.length-1; j++)
         {
-            xLabels[i] = xLabels[i].replace(new RegExp('-','g'),'/');
-        }
-        for (var i = 0; i < data.length; i++)
-        {
-            for (var j = 0; j < xLabels.length-1; j++)
-            {
-                if (isNaN(cont[j]))
-                    {
-                        cont[j] = 0;
-                    }
-                if (data[i] <= xLabels[j+1] && data[i] >= xLabels[j])
+            if (isNaN(cont[j]))
                 {
-                    cont[j]++
+                    cont[j] = 0;
                 }
+            if (data[i] <= xLabels[j+1] && data[i] >= xLabels[j])
+            {
+                cont[j]++
             }
         }
-        cont.unshift(0);
-        return cont;   
     }
+    cont.unshift(0);
+    return cont;   
+}
