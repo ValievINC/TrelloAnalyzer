@@ -30,7 +30,7 @@
             <p><?php foreach ($members as $member): ?>
                 <?="{$member['name']}: {$member['role']}"?></p>
             <?php endforeach; ?>
-            <p class="project_theme"><?=$team_info['url'] ?> ссылочка для меня</p>
+            <!--<p class="project_theme"><?=$team_info['url'] ?> ссылочка для меня</p>-->
         </div>
     </aside>
 </div>
@@ -41,13 +41,12 @@
                 <canvas id="myChart"></canvas>
             </td>
             <td>
-                <canvas id="myChart2"></canvas>
+                <canvas class="pie" id="myChart2"></canvas>
             </td>
         </tr>
         <tr>
             <td>
                 <canvas id="myChart3"></canvas>
-                
             </td>
             <td>
                 <div>
