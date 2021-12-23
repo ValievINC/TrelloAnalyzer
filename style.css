@@ -83,7 +83,7 @@ overflow: hidden;
 .project_name {
 font-size: 20px;
 text-align: center;
-word-break: break-all;
+word-break: break-word;
 margin-top: 10px;
 }
 

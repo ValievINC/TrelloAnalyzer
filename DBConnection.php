@@ -2,7 +2,18 @@
 
 class DBConnection
 {
-    private $connection;
+    private PDO $connection;
+
+    private function ConvertColumnsArray($columns) : array
+    {
+        $result = array();
+        foreach ($columns as $column) {
+            foreach ($column as $parameter) {
+                $result[] = $parameter;
+            }
+        }
+        return $result;
+    }
 
     public function __construct($host, $dbname, $username = 'root', $password = null)
     {
@@ -21,9 +32,17 @@ class DBConnection
 
     public function GetColumns($table, $columns)
     {
-        $arg = implode(', ', $columns);
+        $arg = $columns;
+        if(gettype($columns) == "array") {
+            $arg = implode(', ', $columns);
+        }
         $query = "SELECT $arg FROM $table";
         return $this->Query($query);
+    }
+
+    public function GetColumnsArray($table, $columns) : array
+    {
+        return $this->ConvertColumnsArray($this->GetColumns($table, $columns));
     }
 
     public function GetRow($table, $column, $value)
