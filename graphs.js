@@ -23,21 +23,29 @@ xmlhttp.onreadystatechange = function(){ //проверка на то что д�
         MakeDiagrammOne(); //диаграмки через CHARTJS, через Google Chart не разобрался, зато ChartJS можно что-то помутить
         MakeDiagrammTwo();
         MakeDiagrammThree(generateRanges(datamakes(data)[datamakes(data).length-1],datamakes(data)[0]),generatedatas(datamakes(data),generateRanges(datamakes(data)[datamakes(data).length-1],datamakes(data)[0])));
+        var elem1 = document.getElementsByClassName('Columns_count');
+        var elem2 = document.getElementsByClassName('Cards_count');
+        elem1[0].append(" " + getColumn(tableIDName));
+        elem2[0].append(" " + getCardsLength(data));
     }
 }
 
-const columns = document.querySelector(".Columns_count");
-columns.textContent = "Количество столбцов: " + tableIDName.length;
+function getColumn(tableIDName)
+{
+    return tableIDName.length;
+}
 
-const chards = document.querySelector(".Cards_count");
-chards.textContent = "Количество карточек: " + data.cards.length;
+
+function getCardsLength(data)
+{
+    return data.cards.length;
+}
 
 function randomItem(){
     item = cards[Math.floor(Math.random()*cards.length)]; // random card item
     console.log(item.shortUrl)
     window.open(item.shortUrl);
 }
-
 window.addEventListener('load', function () {
 document.getElementById('GetrandomItem').addEventListener('click', randomItem, false);
 }, false);
