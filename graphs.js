@@ -26,12 +26,17 @@ xmlhttp.onreadystatechange = function(){ //проверка на то что д�
     }
 }
 
+const columns = document.querySelector(".Columns_count");
+columns.textContent = "Количество столбцов: " + tableIDName.length;
+
+const chards = document.querySelector(".Cards_count");
+chards.textContent = "Количество карточек: " + document.querySelectorAll(".list-card").length;
+
 function randomItem(){
     item = cards[Math.floor(Math.random()*cards.length)]; // random card item
     console.log(item.shortUrl)
     window.open(item.shortUrl);
 }
-
 
 window.addEventListener('load', function () {
 document.getElementById('GetrandomItem').addEventListener('click', randomItem, false);
@@ -122,7 +127,7 @@ function MakeDiagrammOne(){
 function randColor(colorsL) {
     var COLORS = [];
     for (var i = 0; i < colorsL; i++) {
-        COLORS.push('#' + rand(0,150).toString(16) + (131).toString(16) + (209).toString(16)); 
+        COLORS.push('#' + rand(45,150).toString(16) + (131).toString(16) + (209).toString(16)); 
     }
     return COLORS;
 }
