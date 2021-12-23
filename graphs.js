@@ -30,7 +30,7 @@ const columns = document.querySelector(".Columns_count");
 columns.textContent = "Количество столбцов: " + tableIDName.length;
 
 const chards = document.querySelector(".Cards_count");
-chards.textContent = "Количество карточек: " + document.querySelectorAll(".list-card").length;
+chards.textContent = "Количество карточек: " + data.cards.length;
 
 function randomItem(){
     item = cards[Math.floor(Math.random()*cards.length)]; // random card item
@@ -152,7 +152,9 @@ function MakeDiagrammTwo(){
             }]
         },
         options: {
-        
+            scales: {
+                
+            }
         }
     });
 }
@@ -177,7 +179,8 @@ function MakeDiagrammThree(data,data1) {
           label: 'График добавления карточек',
           data: data1,
           backgroundColor: 'rgba(45, 131, 209, 1)',
-          borderWidth: 1
+          borderWidth: 3,
+          borderColor: 'rgba(45, 131, 209, 1)'
         }]
       }
     });
