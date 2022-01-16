@@ -16,7 +16,7 @@
     <aside class="list">
         <div class="search">
             <form method="post">
-                <input type="text" autocomplete="off" name="team_name" placeholder="Название команды" list="teams" onchange="this.form.submit()">
+                <input type="text" autocomplete="off" name="team_name" placeholder="Название проекта" list="teams" onchange="this.form.submit()">
                 <datalist name="team_name" id="teams">
                     <?php foreach ($teams as $team): ?>
                         <option value="<?=$team['team_name']?>"></option>
@@ -30,7 +30,6 @@
             <p><?php foreach ($members as $member): ?>
                 <?="{$member['name']}: {$member['role']}"?></p>
             <?php endforeach; ?>
-            <!--<p class="project_theme"><?=$team_info['url'] ?> ссылочка для меня</p>-->
         </div>
     </aside>
 </div>
@@ -50,7 +49,13 @@
             </td>
             <td>
                 <div>
-                    <button id ="GetrandomItem" style="height:100px; width:100px"></button>
+                    <button id ="GetrandomItem" class="button"><img src="svg/Random.svg"></button>
+                    <div class="table_information">
+                        <p>Название карточки: <span id="name"></span></p>
+                        <p>Описание: <span id="desc"></span></p>
+                        <p>Находится в столбце: <span id="list"></span></p>
+                        <p>Ссылка на карточку: <span id="link"></span></p>
+                    </div>
                 </div>
             </td>
         </tr>

@@ -45,9 +45,34 @@ function getCardsLength(data)
 }
 
 function randomItem(){
+    var members = " ";
+    var list = " ";
+    var label = " ";
     item = cards[Math.floor(Math.random()*cards.length)]; // random card item
-    console.log(item.shortUrl)
-    window.open(item.shortUrl);
+    console.log(item.shortUrl);
+    document.getElementById("name").innerHTML = item.name;
+    document.getElementById("desc").innerHTML = item.desc;
+    
+    for (let i = 0; i < item.idMembers.length; i++)
+    {
+        for (let j = 0; j < membersName.length; j++)
+        {
+            if (item.idMembers[i] == membersName[j].id)
+            {
+                members +=membersName[j].fullName + " ";
+            }
+        }
+    }
+    for (let j = 0; j < table.length; j++)
+        {
+        if (item.idList == table[j].id)
+        {
+            list = table[j].name;
+        }
+    }
+    document.getElementById("link").innerHTML = "<a href=" + item.shortUrl + ">" + item.name + "</a>";
+    document.getElementById("list").innerHTML = list;
+    document.getElementById("label").innerHTML = item.labels[0].name;
 }
 window.addEventListener('load', function () {
 document.getElementById('GetrandomItem').addEventListener('click', randomItem, false);

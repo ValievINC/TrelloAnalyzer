@@ -80,11 +80,25 @@ html, body {
     overflow: hidden;
 }
 
+.table_information {
+    font-family: Comfortaa;
+    font-size: 16px;
+    border: solid #2D83D1 2px;
+    border-radius: 10px;
+    width: 80%;
+    height: auto;
+    margin: 20px auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
+    text-align: left;
+}
+
 .project_name {
-font-size: 20px;
-text-align: center;
-word-break: break-word;
-margin-top: 10px;
+    font-size: 20px;
+    text-align: center;
+    word-break: break-word;
+    margin-top: 10px;
 }
 
 .project_theme {
@@ -111,6 +125,12 @@ td {
 .pie {
     max-width: calc((100vw - 250px)/2);
     max-height: calc((100vh - 70px)/2)
+}
+
+.button{
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
 }
 
 @font-face {
